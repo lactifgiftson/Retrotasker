@@ -36,8 +36,6 @@ router.get('/', function(req, res, next) {
       orders: results[0],
       spreadsheets: results[1]
     });
-  }, function(err) {
-    next(err);
   });
 });
 
@@ -57,30 +55,28 @@ router.get('/edit/:id', function(req, res, next) {
   });
 });
 
-router.get('/delete/:id', function(req, res, next) {
-  models.Order.findById(req.params.id)
-    .then(function(order) {
-      if (!order) {
-        throw new Error('Order not found: ' + req.params.id);
-      }
-      return order.destroy();
-    })
-    .then(function() {
-      res.redirect('/');
-    }, function(err) {
-      next(err);
+router.get('/', function(req, res, next) {
+  var options = {
+    order: [['createdAt', 'DESC']]
+  };
+  Sequelize.Promise.all([
+    models.Order.findAll(options),
+    models.Spreadsheet.findAll(options)
+  ]).then(function(results) {
+    res.render('index', {
+      orders: results[0],
+      spreadsheets: results[1]
     });
+  });
 });
 
 router.post('/upsert', function(req, res, next) {
-  models.Order.upsert(req.body).then(function() {
+  models.stepdata.upsert(req.body).then(function() {
     res.redirect('/');
   }, function(err) {
     next(err);
   });
 });
-
-// Route for creating spreadsheet.
 
 var SheetsHelper = require('./sheets');
 
@@ -106,7 +102,6 @@ router.post('/spreadsheets', function(req, res, next) {
     });
   });
 });
-
 // Route for syncing spreadsheet.
 
 router.post('/spreadsheets/:id/sync', function(req, res, next) {

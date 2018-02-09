@@ -33,7 +33,7 @@ var app = express();
 app.set('views', path.join(__dirname, 'views'));
 app.engine('handlebars', expresshandlebars({
   layoutsDir: 'views',
-  defaultLayout: 'layout'
+  defaultLayout: 'homescreen'
 }));
 app.set('view engine', 'handlebars');
 
