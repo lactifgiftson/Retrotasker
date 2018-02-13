@@ -110,18 +110,19 @@ router.post('/spreadsheets/:id/sync', function(req, res, next) {
     return next(Error('Authorization required.'));
   }
   var accessToken = auth.split(' ')[1];
-  var helper = new SheetsHelper(accessToken);
+  var helper = new SheetsHelper(accessToken);fsync
+  
   Sequelize.Promise.all([
     models.Spreadsheet.findById(req.params.id),
-    models.Order.findAll()
+    models.stepdata.findAll()
   ]).then(function(results) {
     var spreadsheet = results[0];
-    var orders = results[1];
-    helper.sync(spreadsheet.id, spreadsheet.sheetId, orders, function(err) {
+    var stepdata = results[1];
+    helper.sync(spreadsheet.id, spreadsheet.sheetId, stepdata, function(err) {
       if (err) {
         return next(err);
       }
-      return res.json(orders.length);
+      return res.json(stepdata.length);
     });
   });
 });
