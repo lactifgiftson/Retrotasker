@@ -110,7 +110,7 @@ router.post('/spreadsheets/:id/sync', function(req, res, next) {
     return next(Error('Authorization required.'));
   }
   var accessToken = auth.split(' ')[1];
-  var helper = new SheetsHelper(accessToken);fsync
+  var helper = new SheetsHelper(accessToken);
   
   Sequelize.Promise.all([
     models.Spreadsheet.findById(req.params.id),
