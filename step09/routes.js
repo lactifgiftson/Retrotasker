@@ -81,16 +81,14 @@ router.post('/upsert', function(req, res, next) {
 });
 
 router.post('/savesites', function(req, res, next) {
-	models.Siterecord.upsert(req.body).then(function() {
 		var eachsite = req.body.siteURL;
 		var nolines = eachsite.split("\r");console.log("successs"+nolines[3]);		
 		for (var i = 0; i < nolines.length; i++) {
-			
+			models.Siterecord.upsert({
+				siteURL: nolines[i]
+			})
 		}
 		res.redirect('/');
-	}, function(err) {
-		next(err);
-	});
 });
 
 var SheetsHelper = require('./sheets');
