@@ -20,15 +20,17 @@
 <div class="mdl-grid">
   <section id="orders" class="mdl-cell mdl-cell--8-col relative">
     <div class="mdl-grid">
-      {{#each siterecord}}
+      {{#each orders}}
       <div class="mdl-cell mdl-cell--6-col mdl-card mdl-shadow--2dp">
         <div class="mdl-card__title">
-          <h2 class="mdl-card__title-text">Siterecord #{{sitelisting}}</h2>
+          <h2 class="mdl-card__title-text">Order #{{id}}</h2>
         </div>
         <div class="mdl-card__supporting-text">
           <table class="order-details">
-            <tr><th>Site URL</th><td>{{siteURL}}</td></tr>
-            <tr><th>Data Collected</th><td>{{collectedData}}</td></tr>
+            <tr><th>Customers</th><td>{{customerName}}</td></tr>
+            <tr><th>Product code</th><td>{{productCode}}</td></tr>
+            <tr><th>Units ordered</th><td>{{unitsOrdered}}</td></tr>
+            <tr><th>Unit price (USD)</th><td>{{unitPrice}}</td></tr>
             <tr><th>Status</th><td>{{status}}</td></tr>
           </table>
         </div>

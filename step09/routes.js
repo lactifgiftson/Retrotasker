@@ -33,9 +33,12 @@ router.get('/', function(req, res, next) {
 	var options = {
 		order : [['createdAt', 'DESC']]
 	};
-	Sequelize.Promise.all([models.Order.findAll(options), models.Spreadsheet.findAll(options)]).then(function(results) {
+	var options1 = {
+		order : [['sitelisting', 'ASC']]
+	};
+	Sequelize.Promise.all([models.Siterecords.findAll(options1), models.Spreadsheet.findAll(options)]).then(function(results) {
 		res.render('index', {
-			orders : results[0],
+			siterecord : results[0],
 			spreadsheets : results[1]
 		});
 	});
@@ -64,9 +67,12 @@ router.get('/', function(req, res, next) {
 	var options = {
 		order : [['createdAt', 'DESC']]
 	};
-	Sequelize.Promise.all([models.Order.findAll(options), models.Spreadsheet.findAll(options)]).then(function(results) {
+	var options1 = {
+		order : [['sitelisting', 'ASC']]
+	};
+	Sequelize.Promise.all([models.Siterecords.findAll(options1), models.Spreadsheet.findAll(options)]).then(function(results) {
 		res.render('index', {
-			orders : results[0],
+			siterecord : results[0],
 			spreadsheets : results[1]
 		});
 	});
@@ -84,11 +90,14 @@ router.post('/savesites', function(req, res, next) {
 		var eachsite = req.body.siteURL;
 		var nolines = eachsite.split("\r");console.log("successs"+nolines[3]);		
 		for (var i = 0; i < nolines.length; i++) {
-			models.Siterecord.upsert({
-				siteURL: nolines[i]
+			models.Siterecords.upsert({			
+				siteURL: nolines[i],
+				sitelisting: i+1
 			})
 		}
 		res.redirect('/');
+}, function(err) {
+		next(err);
 });
 
 var SheetsHelper = require('./sheets');
@@ -125,14 +134,14 @@ router.post('/spreadsheets/:id/sync', function(req, res, next) {
 	var accessToken = auth.split(' ')[1];
 	var helper = new SheetsHelper(accessToken);
 
-	Sequelize.Promise.all([models.Spreadsheet.findById(req.params.id), models.stepdata.findAll()]).then(function(results) {
+	Sequelize.Promise.all([models.Spreadsheet.findById(req.params.id), models.Siterecords.findAll()]).then(function(results) {
 		var spreadsheet = results[0];
-		var stepdata = results[1];
-		helper.sync(spreadsheet.id, spreadsheet.sheetId, stepdata, function(err) {
+		var Siterecords = results[1];
+		helper.sync(spreadsheet.id, spreadsheet.sheetId, Siterecords, function(err) {
 			if (err) {
 				return next(err);
 			}
-			return res.json(stepdata.length);
+			return res.json(Siterecords.length);
 		});
 	});
 });

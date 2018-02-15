@@ -90,8 +90,10 @@ SheetsHelper.prototype.createSpreadsheet = function(title, callback) {
 };
 
 var COLUMNS = [
-  { field: 'stepnumber', header: 'S No.'},
-  { field: 'stepdata', header: 'Step Data' },
+  { field: 'siteURL', header: 'Site'},
+     { field: 'status', header: 'Status' },
+  { field: 'collectedData', header: 'Collected Data' }
+
 ];
 
 /**
@@ -136,7 +138,7 @@ function buildHeaderRowRequest(sheetId) {
  * @param  {Array}    orders        The list of orders.
  * @param  {Function} callback      The callback function.
  */
-SheetsHelper.prototype.sync = function(spreadsheetId, sheetId, sitedata, callback) {
+SheetsHelper.prototype.sync = function(spreadsheetId, sheetId, Siterecord, callback) {
   var requests = [];
   // Resize the sheet.
   requests.push({
@@ -144,7 +146,7 @@ SheetsHelper.prototype.sync = function(spreadsheetId, sheetId, sitedata, callbac
       properties: {
         sheetId: sheetId,
         gridProperties: {
-          rowCount: sitedata.length + 1,
+          rowCount: Siterecord.length + 1,
           columnCount: COLUMNS.length
         }
       },
@@ -159,7 +161,7 @@ SheetsHelper.prototype.sync = function(spreadsheetId, sheetId, sitedata, callbac
         rowIndex: 1,
         columnIndex: 0
       },
-      rows: buildRowsForSitedata(sitedata),
+      rows: buildRowsForSitedata(Siterecord),
       fields: '*'
     }
   });
@@ -183,60 +185,17 @@ SheetsHelper.prototype.sync = function(spreadsheetId, sheetId, sitedata, callbac
  * @param  {Array} orders The orders.
  * @return {Array}        The RowData.
  */
-function buildRowsForSitedata(sitedata) {
-  return sitedata.map(function(order) {
+function buildRowsForSitedata(Siterecord) {
+  return Siterecord.map(function(Siterecord) {
     var cells = COLUMNS.map(function(column) {
       switch (column.field) {
-        case 'unitsOrdered':
-          return {
-            userEnteredValue: {
-              numberValue: order.unitsOrdered
-            },
-            userEnteredFormat: {
-              numberFormat: {
-                type: 'NUMBER',
-                pattern: '#,##0'
-              }
-            }
-          };
-          break;
-        case 'unitPrice':
-          return {
-            userEnteredValue: {
-              numberValue: order.unitPrice
-            },
-            userEnteredFormat: {
-              numberFormat: {
-                type: 'CURRENCY',
-                pattern: '"$"#,##0.00'
-              }
-            }
-          };
-          break;
-        case 'status':
-          return {
-            userEnteredValue: {
-              stringValue: order.status
-            },
-            dataValidation: {
-              condition: {
-                type: 'ONE_OF_LIST',
-                values: [
-                  { userEnteredValue: 'PENDING' },
-                  { userEnteredValue: 'SHIPPED' },
-                  { userEnteredValue: 'DELIVERED' }
-                ]
-              },
-              strict: true,
-              showCustomUi: true
-            }
-          };
-          break;
         default:
+        if(Siterecord[column.field] != null){
           return {
             userEnteredValue: {
-              stringValue: order[column.field].toString()
+            		stringValue: Siterecord[column.field].toString()
             }
+           }
           };
       }
     });
