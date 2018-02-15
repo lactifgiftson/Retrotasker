@@ -56,7 +56,6 @@ function onSignIn(user) {
 }
 
 // Spreadsheet control handlers.
-
 $(function() {
   $('button[rel="create"]').click(function() {
     makeRequest('POST', '/spreadsheets', function(err, spreadsheet) {
@@ -69,7 +68,7 @@ $(function() {
     var url = '/spreadsheets/' + spreadsheetId + '/sync';
     makeRequest('POST', url, function(err) {
       if (err) return showError(err);
-      showMessage('Sync complete.')
+      showMessage('Sync complete.');
     });
   });
 });

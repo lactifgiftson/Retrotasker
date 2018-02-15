@@ -90,12 +90,8 @@ SheetsHelper.prototype.createSpreadsheet = function(title, callback) {
 };
 
 var COLUMNS = [
-  { field: 'id', header: 'ID' },
-  { field: 'customerName', header: 'Customer Name'},
-  { field: 'productCode', header: 'Product Code' },
-  { field: 'unitsOrdered', header: 'Units Ordered' },
-  { field: 'unitPrice', header: 'Unit Price' },
-  { field: 'status', header: 'Status'}
+  { field: 'stepnumber', header: 'S No.'},
+  { field: 'stepdata', header: 'Step Data' },
 ];
 
 /**
@@ -140,7 +136,7 @@ function buildHeaderRowRequest(sheetId) {
  * @param  {Array}    orders        The list of orders.
  * @param  {Function} callback      The callback function.
  */
-SheetsHelper.prototype.sync = function(spreadsheetId, sheetId, orders, callback) {
+SheetsHelper.prototype.sync = function(spreadsheetId, sheetId, sitedata, callback) {
   var requests = [];
   // Resize the sheet.
   requests.push({
@@ -148,7 +144,7 @@ SheetsHelper.prototype.sync = function(spreadsheetId, sheetId, orders, callback)
       properties: {
         sheetId: sheetId,
         gridProperties: {
-          rowCount: orders.length + 1,
+          rowCount: sitedata.length + 1,
           columnCount: COLUMNS.length
         }
       },
@@ -163,7 +159,7 @@ SheetsHelper.prototype.sync = function(spreadsheetId, sheetId, orders, callback)
         rowIndex: 1,
         columnIndex: 0
       },
-      rows: buildRowsForOrders(orders),
+      rows: buildRowsForSitedata(sitedata),
       fields: '*'
     }
   });
@@ -187,8 +183,8 @@ SheetsHelper.prototype.sync = function(spreadsheetId, sheetId, orders, callback)
  * @param  {Array} orders The orders.
  * @return {Array}        The RowData.
  */
-function buildRowsForOrders(orders) {
-  return orders.map(function(order) {
+function buildRowsForSitedata(sitedata) {
+  return sitedata.map(function(order) {
     var cells = COLUMNS.map(function(column) {
       switch (column.field) {
         case 'unitsOrdered':
