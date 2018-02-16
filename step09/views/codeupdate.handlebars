@@ -1,0 +1,53 @@
+<!--
+Copyright 2016 Google, Inc.
+
+Licensed to the Apache Software Foundation (ASF) under one or more contributor
+license agreements. See the NOTICE file distributed with this work for
+additional information regarding copyright ownership. The ASF licenses this
+file to you under the Apache License, Version 2.0 (the "License"); you may not
+use this file except in compliance with the License. You may obtain a copy of
+the License at
+
+http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
+WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
+License for the specific language governing permissions and limitations under
+the License.
+-->
+
+<section class="mdl-grid">
+	<div class="mdl-cell mdl-cell--8-col mdl-card mdl-shadow--3dp">
+		<div class="mdl-card__title">
+			<h2 class="mdl-card__title-text">Enter your script in the text area below</h2>
+		</div>
+		<form method="post" action="/savesites">
+			<textarea id=demotext>
+<!-- Create a simple CodeMirror instance -->
+<link rel="stylesheet" href="lib/codemirror.css">
+<script src="lib/codemirror.js"></script>
+<script>
+	var editor = CodeMirror.fromTextArea(myTextarea, {
+		lineNumbers : true
+	}); 
+</script></textarea>
+  <script>
+    var editor = CodeMirror.fromTextArea(document.getElementById("demotext"), {
+      lineNumbers: true,
+      mode: "javascript",
+      matchBrackets: true
+    });
+  </script>
+			<div class="mdl-card__actions">
+				<button id="save site-list" class="mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--colored mdl-button--raised">
+					Submit
+				</button>
+				<div class="mdl-tooltip" data-mdl-for="save site-list">
+					<strong>Bulk sasve site list and proceed to enter code</strong>
+				</div>
+				<a class="mdl-button mdl-js-button mdl-js-ripple-effect" href="/">Cancel</a>
+			</div>
+		</form>
+	</div>
+</section>

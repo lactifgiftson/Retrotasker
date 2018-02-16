@@ -23,7 +23,7 @@ var express = require('express');
 var router = express.Router();
 var models = require('./models');
 var Sequelize = require('sequelize');
-var express    = require('express');
+var express = require('express');
 var bodyParser = require('body-parser');
 
 var app = express();
@@ -44,22 +44,29 @@ router.get('/', function(req, res, next) {
 	});
 });
 router.get('/delete/:sitelisting', function(req, res, next) {
-  models.Siterecords.findById(req.params.sitelisting)
-    .then(function(order) {
-      if (!order) {
-        throw new Error('Order not found: ' + req.params.id);
-      }
-      return order.destroy();
-    })
-    .then(function() {
-      res.redirect('/');
-    }, function(err) {
-      next(err);
-    });
+	models.Siterecords.findById(req.params.sitelisting).then(function(order) {
+		if (!order) {
+			throw new Error('Order not found: ' + req.params.id);
+		}
+		return order.destroy();
+	}).then(function() {
+		res.redirect('/');
+	}, function(err) {
+		next(err);
+	});
 });
+
+
+
+
+
 router.get('/sitelistinsert', function(req, res, next) {
-	res.render('listfetcher');
+	res.render('sitelisttextaraea');
 });
+
+
+
+
 router.get('/create', function(req, res, next) {
 	res.render('listedit');
 });
@@ -100,17 +107,29 @@ router.post('/upsert', function(req, res, next) {
 });
 
 router.post('/savesites', function(req, res, next) {
-		var eachsite = req.body.siteURL;
-		var nolines = eachsite.split("\r");console.log("successs"+nolines[3]);		
-		for (var i = 0; i < nolines.length; i++) {
-			models.Siterecords.upsert({			
-				siteURL: nolines[i],
-				sitelisting: i+1
-			})
-		}
-		res.redirect('/');
+	var eachsite = req.body.siteURL;
+	var nolines = eachsite.split("\r");
+	console.log("successs" + nolines[3]);
+	for (var i = 0; i < nolines.length; i++) {
+		models.Siterecords.upsert({
+			siteURL : nolines[i],
+			sitelisting : i + 1
+		})
+	}
+	res.render('codeupdate');
 }, function(err) {
-		next(err);
+	next(err);
+});
+
+router.post('/savescript', function(req, res, next) {
+	var scriptassoc = req.body.scriptUsed;
+	var nolines = scriptassoc;
+	models.Siterecords.upsert({
+		siteURL : nolines
+	})
+	res.redirect('/sitelistinsert');
+}, function(err) {
+	next(err);
 });
 
 var SheetsHelper = require('./sheets');

@@ -18,20 +18,21 @@ the License.
 -->
 
 <section class="mdl-grid">
-	<div class="mdl-cell mdl-cell--4-col mdl-card mdl-shadow--2dp">
+	<div class="mdl-cell mdl-cell--8-col mdl-card mdl-shadow--3dp">
 		<div class="mdl-card__title">
-			<h2 class="mdl-card__title-text">Enter the list of sites one URL per line</h2>
+			<h2 class="mdl-card__title-text">Enter the list of sites one URL per line.  http is not needed.(e.g daniellamason.com)</h2>
 		</div>
 		<form method="post" action="/savesites">
-			<textarea id="siteURL" name="siteURL" cols="36" rows="5" {{Siterecords.siteURL}}></textarea> 
+			<textarea id="siteURL" name="siteURL" cols="50" rows="10" {{Siterecords.siteURL}}></textarea>
 			<div class="mdl-card__actions">
-				<button class="mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--colored mdl-button--raised">
+				<button id="save site-list" class="mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--colored mdl-button--raised">
 					Submit
 				</button>
+				<div class="mdl-tooltip" data-mdl-for="save site-list">
+					<strong>Bulk sasve site list and proceed to enter code</strong>
+				</div>
 				<a class="mdl-button mdl-js-button mdl-js-ripple-effect" href="/">Cancel</a>
 			</div>
 		</form>
 	</div>
-	</div>
-
 </section>

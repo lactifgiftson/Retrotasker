@@ -22,8 +22,9 @@ module.exports = function(sequelize, DataTypes) {
   var Siterecords = sequelize.define('Siterecords', {
   	sitelisting: {type: DataTypes.INTEGER, allowNull: false, primaryKey: true, unique:true},
     siteURL: {type: DataTypes.STRING, allowNull: false},
-    collectedData: {type: DataTypes.STRING, allowNull: true},
-    status: {type: DataTypes.STRING, allowNull: false, defaultValue: 'NOT STARTED'}
+    collectedData: {type: DataTypes.STRING, allowNull: true,defaultValue: null},
+    status: {type: DataTypes.STRING, allowNull: false, defaultValue: 'NOT STARTED'},
+    scriptUsed: {type: DataTypes.STRING, allowNull: true}
   });
 
   return Siterecords;

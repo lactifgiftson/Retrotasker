@@ -193,7 +193,7 @@ function buildRowsForSitedata(Siterecord) {
         if(Siterecord[column.field] != null){
           return {
             userEnteredValue: {
-            	stringValue: Siterecord[column.field].toString()
+            	stringValue: Siterecord[column.field].toString().trim()
             }
            }
           };
