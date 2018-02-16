@@ -43,19 +43,32 @@ router.get('/', function(req, res, next) {
 		});
 	});
 });
-
+router.get('/delete/:sitelisting', function(req, res, next) {
+  models.Siterecords.findById(req.params.sitelisting)
+    .then(function(order) {
+      if (!order) {
+        throw new Error('Order not found: ' + req.params.id);
+      }
+      return order.destroy();
+    })
+    .then(function() {
+      res.redirect('/');
+    }, function(err) {
+      next(err);
+    });
+});
 router.get('/sitelistinsert', function(req, res, next) {
 	res.render('listfetcher');
 });
 router.get('/create', function(req, res, next) {
-	res.render('upsert');
+	res.render('listedit');
 });
 
-router.get('/edit/:id', function(req, res, next) {
-	models.Order.findById(req.params.id).then(function(order) {
-		if (order) {
-			res.render('upsert', {
-				order : order
+router.get('/edit/:sitelisting', function(req, res, next) {
+	models.Siterecords.findById(req.params.sitelisting).then(function(Siterecords) {
+		if (Siterecords) {
+			res.render('listedit', {
+				Siterecords : Siterecords
 			});
 		} else {
 			next(new Error('Order not found: ' + req.params.id));
@@ -79,7 +92,7 @@ router.get('/', function(req, res, next) {
 });
 
 router.post('/upsert', function(req, res, next) {
-	models.stepdata.upsert(req.body).then(function() {
+	models.Siterecords.upsert(req.body).then(function() {
 		res.redirect('/');
 	}, function(err) {
 		next(err);
