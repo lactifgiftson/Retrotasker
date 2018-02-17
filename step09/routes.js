@@ -56,16 +56,9 @@ router.get('/delete/:sitelisting', function(req, res, next) {
 	});
 });
 
-
-
-
-
 router.get('/sitelistinsert', function(req, res, next) {
 	res.render('sitelisttextaraea');
 });
-
-
-
 
 router.get('/create', function(req, res, next) {
 	res.render('listedit');
@@ -122,12 +115,18 @@ router.post('/savesites', function(req, res, next) {
 });
 
 router.post('/savescript', function(req, res, next) {
-	var scriptassoc = req.body.scriptUsed;
-	var nolines = scriptassoc;
-	models.Siterecords.upsert({
-		siteURL : nolines
-	})
-	res.redirect('/sitelistinsert');
+	Sequelize.Promise.all([models.Siterecords.findAll()]).then(function(results) {
+		var Siterecords = results[0];
+		console.log("Siterecords" + Siterecords[0].siteURL);
+		for (var i = 0; i < Siterecords.length; i++) {
+			models.Siterecords.upsert({
+				siteURL : Siterecords[i].siteURL,
+				sitelisting : Siterecords[i].sitelisting,
+				scriptUsed: req.body.scriptUsed
+			})
+		}
+		res.render('codeupdate');
+	});
 }, function(err) {
 	next(err);
 });

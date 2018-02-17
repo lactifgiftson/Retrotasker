@@ -18,36 +18,36 @@ the License.
 -->
 
 <section class="mdl-grid">
-	<div class="mdl-cell mdl-cell--8-col mdl-card mdl-shadow--3dp">
-		<div class="mdl-card__title">
-			<h2 class="mdl-card__title-text">Enter your script in the text area below</h2>
-		</div>
-		<form method="post" action="/savesites">
-			<textarea id=demotext>
+    <div class="mdl-cell mdl-cell--8-col mdl-card mdl-shadow--3dp">
+        <div class="mdl-card__title">
+            <h2 class="mdl-card__title-text">Enter your script in the text area below</h2>
+        </div>
+        <form method="post" action="/savescript">
+            <textarea name="scriptUsed" id="scriptUsed" cols="50" rows="10"{{Siterecords.scriptUsed}}>
 <!-- Create a simple CodeMirror instance -->
 <link rel="stylesheet" href="lib/codemirror.css">
 <script src="lib/codemirror.js"></script>
 <script>
-	var editor = CodeMirror.fromTextArea(myTextarea, {
-		lineNumbers : true
-	}); 
-</script></textarea>
-  <script>
-    var editor = CodeMirror.fromTextArea(document.getElementById("demotext"), {
-      lineNumbers: true,
-      mode: "javascript",
-      matchBrackets: true
+    var editor = CodeMirror.fromTextArea(myTextarea, {
+        lineNumbers : true
     });
-  </script>
-			<div class="mdl-card__actions">
-				<button id="save site-list" class="mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--colored mdl-button--raised">
-					Submit
-				</button>
-				<div class="mdl-tooltip" data-mdl-for="save site-list">
-					<strong>Bulk sasve site list and proceed to enter code</strong>
-				</div>
-				<a class="mdl-button mdl-js-button mdl-js-ripple-effect" href="/">Cancel</a>
-			</div>
-		</form>
-	</div>
+</script></textarea>
+            <script>
+                var editor = CodeMirror.fromTextArea(document.getElementById("scriptUsed"), {
+                    lineNumbers : true,
+                    mode : "javascript",
+                    matchBrackets : true
+                });
+            </script>
+            <div class="mdl-card__actions">
+                <button id="save site-list" class="mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--colored mdl-button--raised">
+                    Submit
+                </button>
+                <div class="mdl-tooltip" data-mdl-for="save site-list">
+                    <strong>Bulk sasve site list and proceed to enter code</strong>
+                </div>
+                <a class="mdl-button mdl-js-button mdl-js-ripple-effect" href="/">Cancel</a>
+            </div>
+        </form>
+    </div>
 </section>

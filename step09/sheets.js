@@ -92,7 +92,9 @@ SheetsHelper.prototype.createSpreadsheet = function(title, callback) {
 var COLUMNS = [
   { field: 'siteURL', header: 'Site'},
      { field: 'status', header: 'Status' },
+       { field: 'scriptUsed', header: 'Script Used' },
   { field: 'collectedData', header: 'Collected Data' }
+
 
 ];
 
