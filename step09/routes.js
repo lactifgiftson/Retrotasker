@@ -19,6 +19,12 @@
 
 'use strict';
 
+let
+vo = require('vo');
+var Nightmare = require('nightmare');
+let
+nightmare = Nightmare();
+
 var express = require('express');
 var router = express.Router();
 var models = require('./models');
@@ -43,6 +49,23 @@ router.get('/', function(req, res, next) {
 		});
 	});
 });
+
+router.get('/delete/all', function(req, res, next) {
+
+	const Op = Sequelize.Op
+	models.Siterecords.findById(req.params.sitelisting).then(function(order) {
+		return models.Siterecords.destroy({
+			where : {
+
+			}
+		});
+	}).then(function() {
+		res.redirect('/');
+	}, function(err) {
+		next(err);
+	});
+});
+
 router.get('/delete/:sitelisting', function(req, res, next) {
 	models.Siterecords.findById(req.params.sitelisting).then(function(order) {
 		if (!order) {
@@ -122,10 +145,10 @@ router.post('/savescript', function(req, res, next) {
 			models.Siterecords.upsert({
 				siteURL : Siterecords[i].siteURL,
 				sitelisting : Siterecords[i].sitelisting,
-				scriptUsed: req.body.scriptUsed
+				scriptUsed : req.body.scriptUsed
 			})
 		}
-		res.render('codeupdate');
+		res.render('startexec');
 	});
 }, function(err) {
 	next(err);
@@ -156,8 +179,11 @@ router.post('/spreadsheets', function(req, res, next) {
 	});
 });
 // Route for syncing spreadsheet.
-
+var Nightmare = require('nightmare');
+var collectedData = "";
+var urlcurr = "";
 router.post('/spreadsheets/:id/sync', function(req, res, next) {
+
 	var auth = req.get('Authorization');
 	if (!auth) {
 		return next(Error('Authorization required.'));
@@ -176,5 +202,47 @@ router.post('/spreadsheets/:id/sync', function(req, res, next) {
 		});
 	});
 });
+var urls = [];
+var result = "";
+router.post('/nightmare', function(req, res, next) {
 
+	Sequelize.Promise.all([models.Siterecords.findAll()]).then(function(results) {
+		var Siterecords = results[0];
+		//console.log("Siterecords" + Siterecords[0].siteURL);
+		for (var i = 0; i < Siterecords.length; i++) {
+
+			urls.push(Siterecords[i].siteURL);
+		}
+		var run = function*() {
+			for (var i = 0; i < urls.length; i++) {console.log("http://www." + urls[i] + "?frontpage=true");
+				var results =   yield nightmare.goto("http://" + urls[i] + "?frontpage=true").wait('body')
+				.evaluate(function() {
+					if(document.querySelector("input[name='newsletterId']") == null){
+						return "no mailing list"
+					}
+					else{
+						return document.querySelector("input[name='newsletterId']").value;
+						
+					}
+					
+				});
+
+				//result.push(results);
+				console.log(urls[i] + results);
+				models.Siterecords.upsert({
+					siteURL : urls[i],
+					sitelisting : Siterecords[i].sitelisting,
+					collectedData : results
+				})
+			}
+
+			return result;
+		}
+		vo(run)(function(err, results) {
+			console.log("why" + results);
+		});
+		//res.render('startexec');
+	});
+	//res.render("controlexecution");
+});
 module.exports = router;

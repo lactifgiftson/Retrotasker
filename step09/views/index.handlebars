@@ -17,84 +17,94 @@ License for the specific language governing permissions and limitations under
 the License.
 -->
 <div>
-	<a href="/sitelistinsert" id="bulk-site-update-button" class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect">Bulk update site list here
-	</a>
-	<div class="mdl-tooltip" data-mdl-for="bulk-site-update-button">
-		<strong>Bulk update site list here</strong>
-	</div>
-	<br><br>
-	<div>
-		Below is the snapshot of the entite site data available till now.
-	</div>
-	<div class="mdl-grid">
-		<section id="orders" class="mdl-cell mdl-cell--8-col relative">
-			<div class="mdl-grid">
-				{{#each siterecord}}
-				<div class="mdl-cell mdl-cell--6-col mdl-card mdl-shadow--2dp">
-					<div class="mdl-card__title">
-						<h2 class="mdl-card__title-text">Siterecord #{{sitelisting}}</h2>
-					</div>
-					<div class="mdl-card__supporting-text">
-						<table class="order-details">
-							<tr>
-								<th>Site URL</th><td>{{siteURL}}</td>
-							</tr>
-							<tr>
-								<th>Data Collected</th><td>{{collectedData}}</td>
-							</tr>
-							<tr>
-								<th>Script Used</th><td>{{scriptUsed}}</td>
-							</tr>
-							<tr>
-								<th>Status</th><td>{{status}}</td>
-							</tr>
-						</table>
-					</div>
-					<div class="mdl-card__actions">
-						<a class="mdl-button mdl-button--colored mdl-js-button
-						mdl-js-ripple-effect"
-						href="/edit/{{sitelisting}}">Edit</a>
-						<a class="mdl-button mdl-js-button mdl-js-ripple-effect"
-						href="/delete/{{sitelisting}}">Delete</a>
-					</div>
-				</div>
-				{{/each}}
-				<a class="mdl-button mdl-js-button mdl-button--fab mdl-js-ripple-effect
-				mdl-button--colored mdl-shadow--4dp mdl-color--accent"
-				href="/create" id="add-new-entry"> <i class="icon material-icons" role="presentation">add</i><span class="visuallyhidden">Add</span> </a>
-				<div class="mdl-tooltip" data-mdl-for="add-new-entry">
-					Add new single<strong>site entry</strong>
-				</div>
-			</div>
-		</section>
+    <a href="/sitelistinsert" id="bulk-site-update-button" class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect">Bulk update site list here </a>
+    <div class="mdl-tooltip" data-mdl-for="bulk-site-update-button">
+        <strong>Bulk update site list here</strong>
+    </div>
+    <br>
+    <a href="/delete/all" id="bulk-site-update-button" class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect">Delete all data present</a>
+    <div class="mdl-tooltip" data-mdl-for="bulk-site-update-button">
+        <strong>Wipeout all data and start fresh task</strong>
+    </div>
+    <br>
+    <div>
+        Below is the snapshot of the entite site data available till now.
+    </div>
+    <div class="mdl-grid">
+        <section id="orders" class="mdl-cell mdl-cell--8-col relative">
+            <div class="mdl-grid">
+                {{#each siterecord}}
+                <div class="mdl-cell mdl-cell--6-col mdl-card mdl-shadow--2dp">
+                    <div class="mdl-card__title">
+                        <h2 class="mdl-card__title-text">Siterecord #{{sitelisting}}</h2>
+                    </div>
+                    <div class="mdl-card__supporting-text">
+                        <table class="order-details">
+                            <tr>
+                                <th>Site URL</th><td>{{siteURL}}</td>
+                            </tr>
+                            <tr>
+                                <th>Data Collected</th><td>{{collectedData}}</td>
+                            </tr>
+                            <tr>
+                                <th>Script Used</th><td>{{scriptUsed}}</td>
+                            </tr>
+                            <tr>
+                                <th>Status</th><td>{{status}}</td>
+                            </tr>
+                        </table>
+                    </div>
+                    <div class="mdl-card__actions">
+                        <a class="mdl-button mdl-button--colored mdl-js-button
+                        mdl-js-ripple-effect"
+                        href="/edit/{{sitelisting}}">Edit</a>
+                        <a class="mdl-button mdl-js-button mdl-js-ripple-effect"
+                        href="/delete/{{sitelisting}}">Delete</a>
+                    </div>
+                </div>
+                {{/each}}
+                <a class="mdl-button mdl-js-button mdl-button--fab mdl-js-ripple-effect
+                mdl-button--colored mdl-shadow--4dp mdl-color--accent"
+                href="/create" id="add-new-entry"> <i class="icon material-icons" role="presentation">add</i><span class="visuallyhidden">Add</span> </a>
+                <div class="mdl-tooltip" data-mdl-for="add-new-entry">
+                    Add new single<strong>site entry</strong>
+                </div>
+            </div>
+        </section>
 
-		<!-- Show spreadsheets -->
-		<section id="spreadsheets"
-		class="mdl-cell mdl-cell--4-col relative">
-			<div class="mdl-list">
-				<div class="mdl-list__item">
-					<span class="mdl-list__item-primary-content mdl-layout-title"> Spreadsheets</span>
-					<span class="mdl-list__item-secondary-action">
-						<button class="mdl-button mdl-js-button mdl-button--raised
-						mdl-js-ripple-effect mdl-button--colored"
-						rel="create" type="button">
-							Create
-						</button> </span>
-				</div>
-				{{#each spreadsheets}}
-				<div class="mdl-list__item">
-					<a class="mdl-list__item-primary-content"
-					href="https://docs.google.com/spreadsheets/d/{{id}}/edit"
-					target="_blank">{{name}}</a>
-					<span class="mdl-list__item-secondary-action">
-						<button class="mdl-button mdl-js-button mdl-button--raised
-						mdl-js-ripple-effect"
-						rel="sync" data-spreadsheetid="{{id}}"
-						type="button">
-							Sync
-						</button> </span>
-				</div>
-				{{/each}}
-			</div>
-		</section>
-	</div>
+        <!-- Show spreadsheets -->
+        <section id="spreadsheets"
+        class="mdl-cell mdl-cell--4-col relative">
+            <div class="mdl-list">
+                <div class="mdl-list__item">
+                    <span class="mdl-list__item-primary-content mdl-layout-title"> Spreadsheets</span>
+                    <span class="mdl-list__item-secondary-action">
+                        <button class="mdl-button mdl-js-button mdl-button--raised
+                        mdl-js-ripple-effect mdl-button--colored"
+                        rel="create" type="button" id="create_sheet">
+                            Create
+                        </button> </span>
+                    <div class="mdl-tooltip" data-mdl-for="create_sheet">
+                        <strong>CReate new spread sheet</strong>
+                    </div>
+                </div>
+                {{#each spreadsheets}}
+                <div class="mdl-list__item">
+                    <a class="mdl-list__item-primary-content"
+                    href="https://docs.google.com/spreadsheets/d/{{id}}/edit"
+                    target="_blank">{{name}}</a>
+                    <span class="mdl-list__item-secondary-action">
+                        <button class="mdl-button mdl-js-button mdl-button--raised
+                        mdl-js-ripple-effect"
+                        rel="sync" data-spreadsheetid="{{id}}"
+                        type="button" id="sync_sheet">
+                            Sync
+                        </button> </span>
+                    <div class="mdl-tooltip" data-mdl-for="sync_sheet">
+                        <strong>Sync entire data to spreadsheet</strong>
+                    </div>
+                </div>
+                {{/each}}
+            </div>
+        </section>
+    </div>
