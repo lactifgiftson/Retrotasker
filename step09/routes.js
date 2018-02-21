@@ -208,23 +208,28 @@ router.post('/nightmare', function(req, res, next) {
 
 	Sequelize.Promise.all([models.Siterecords.findAll()]).then(function(results) {
 		var Siterecords = results[0];
+
 		//console.log("Siterecords" + Siterecords[0].siteURL);
 		for (var i = 0; i < Siterecords.length; i++) {
 
 			urls.push(Siterecords[i].siteURL);
 		}
 		var run = function*() {
-			for (var i = 0; i < urls.length; i++) {console.log("http://www." + urls[i] + "?frontpage=true");
-				var results =   yield nightmare.goto("http://" + urls[i] + "?frontpage=true").wait('body')
-				.evaluate(function() {
-					if(document.querySelector("input[name='newsletterId']") == null){
+			for (var i = 0; i < urls.length; i++) {
+				models.Siterecords.upsert({
+					siteURL : Siterecords[i].siteURL,
+					sitelisting : Siterecords[i].sitelisting,
+					status : "WIP"
+				})
+				console.log("http://www." + urls[i] + "?frontpage=true");
+				var results = yield nightmare.goto("http://" + urls[i] + "?frontpage=true").wait('body').evaluate(function() {
+					if (document.querySelector("input[name='newsletterId']") == null) {
 						return "no mailing list"
-					}
-					else{
+					} else {
 						return document.querySelector("input[name='newsletterId']").value;
-						
+
 					}
-					
+
 				});
 
 				//result.push(results);
@@ -232,7 +237,8 @@ router.post('/nightmare', function(req, res, next) {
 				models.Siterecords.upsert({
 					siteURL : urls[i],
 					sitelisting : Siterecords[i].sitelisting,
-					collectedData : results
+					collectedData : results,
+					status : "IN-QA"
 				})
 			}
 

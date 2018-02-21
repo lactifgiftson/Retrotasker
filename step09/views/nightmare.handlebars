@@ -18,6 +18,7 @@
 		<!-- Local Assets -->
 		<link rel="stylesheet" href="/styles.css">
 		<script src="/script.js"></script>
+		<script src="/shared.js"></script>
 		<!-- Google Sign-in library -->
 		<meta name="google-signin-scope" content="https://www.googleapis.com/auth/spreadsheets">
 		<meta name="google-signin-client_id" content="85909451185-i7p5q02v1do3us3ejiuh2gn0a0lc3gro.apps.googleusercontent.com">
@@ -43,33 +44,23 @@
 </style>	
 	
 	</head>
-	<body class="mdl-demo mdl-color--grey-100 mdl-color-text--grey-700 mdl-base">
-		<div class="mdl-layout mdl-js-layout mdl-layout--fixed-header">
-			<header class="mdl-layout__header mdl-layout__header--scroll mdl-color--primary">
-				<div class="mdl-layout--large-screen-only mdl-layout__header-row"></div>
-				<div class="mdl-layout__header-row">
-					<h3><a href="/">Retro Task Handler</a></h3>
-					<div class="mdl-layout-spacer"></div>
-					<div id="spinner" class="mdl-spinner mdl-js-spinner"></div>
 
-					<!-- Google Sign-in button -->
-					<div id="profile" style="margin: 0 20px;">
-						<b class="name"></b>
-						<br/>
-						<i class="email"></i>
-					</div>
-					<div class="g-signin2" data-onsuccess="onSignIn"></div>
-				</div>
-
-				<div class="mdl-layout--large-screen-only mdl-layout__header-row"></div>
-			</header>
-			<main class="mdl-layout__content">
-				{{{body}}}
-			</main>
-			<div id="snackbar" class="mdl-js-snackbar mdl-snackbar">
-				<div class="mdl-snackbar__text"></div>
-				<button class="mdl-snackbar__action" type="button"></button>
-			</div>
+<body class="mdl-demo mdl-color--grey-100 mdl-color-text--grey-700 mdl-base">
+<form method="post" action="/nightmare">
+	<div class="mdl-card__actions">
+		<button id="save site-list" class="mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--colored mdl-button--raised">
+			Start code execution for each site.
+		</button>
+		<div class="mdl-tooltip" data-mdl-for="save site-list">
+			<strong>Start code execution for each site.</strong>
 		</div>
+		<a class="mdl-button mdl-js-button mdl-js-ripple-effect" href="/">Cancel</a>
+	</div>
+</form>
+
+<div id="snackbar" class="mdl-js-snackbar mdl-snackbar">
+	<div class="mdl-snackbar__text"></div>
+	<button class="mdl-snackbar__action" type="button"></button>
+</div>
 	</body>
 </html>
