@@ -204,14 +204,16 @@ router.post('/spreadsheets/:id/sync', function(req, res, next) {
 });
 var urls = [];
 var result = "";
+var scriptValue=[];
 router.post('/nightmare', function(req, res, next) {
 
 	Sequelize.Promise.all([models.Siterecords.findAll()]).then(function(results) {
 		var Siterecords = results[0];
+		
 
 		//console.log("Siterecords" + Siterecords[0].siteURL);
 		for (var i = 0; i < Siterecords.length; i++) {
-
+			scriptValue.push(Siterecords[i].scriptUsed);
 			urls.push(Siterecords[i].siteURL);
 		}
 		var run = function*() {
@@ -221,7 +223,7 @@ router.post('/nightmare', function(req, res, next) {
 					sitelisting : Siterecords[i].sitelisting,
 					status : "WIP"
 				})
-				console.log("http://www." + urls[i] + "?frontpage=true");
+				console.log("http://www." + scriptValue[i] + "?frontpage=true");
 				var results = yield nightmare.goto("http://" + urls[i] + "?frontpage=true").wait('body').evaluate(function() {
 					if (document.querySelector("input[name='newsletterId']") == null) {
 						return "no mailing list"
