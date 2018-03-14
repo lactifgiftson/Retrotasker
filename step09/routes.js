@@ -177,7 +177,7 @@ router.post('/spreadsheets', function(req, res, next) {
 			return res.json(model);
 		});
 	});
-});
+}); 
 // Route for syncing spreadsheet.
 var Nightmare = require('nightmare');
 var collectedData = "";
@@ -226,7 +226,7 @@ router.post('/nightmare', function(req, res, next) {
 					if (document.querySelector("input[name='newsletterId']") == null) {
 						return "no mailing list"
 					} else {
-						return document.querySelector("input[name='newsletterId']").value;
+						return document.title;
 
 					}
 
@@ -245,7 +245,7 @@ router.post('/nightmare', function(req, res, next) {
 			return result;
 		}
 		vo(run)(function(err, results) {
-			console.log("why" + results);
+			console.log("why" + err);
 		});
 		//res.render('startexec');
 	});
