@@ -247,7 +247,7 @@ router.post('/nightmare', function(req, res, next) {
 			return result;
 		}
 		vo(run)(function(err, results) {
-			console.log("why" + err);
+			console.log("Error: " + err.message);
 		});
 		//res.render('startexec');
 	});
